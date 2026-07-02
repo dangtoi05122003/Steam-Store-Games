@@ -1,0 +1,7 @@
+data
+*.yaml
+.env
+docker
+__pycache__
+notebook
+jars
