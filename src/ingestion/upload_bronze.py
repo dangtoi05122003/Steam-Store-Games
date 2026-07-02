@@ -15,9 +15,9 @@ class UploadBronze:
             if file.endswith(".csv"):
                 full_path = os.path.join(data_path, file)
                 logger.info(f"Đang đọc file: {full_path}")
-                df = self.spark.read.option("header", True).option("inferSchema", True).csv(full_path)
+                df = self.spark.read.option("header", True).option("multiLine", True).option("quote", "\"").option("escape", "\"").csv(full_path)
                 table_name = file.replace(".csv", "")
-                output_path = f"s3a://{setting.bucket_name}/{table_name}/"
+                output_path = f"s3a://{setting.bucket_name}/bronze/{table_name}/"
                 df.write.mode("overwrite").parquet(output_path)
                 logger.info(f"Đã upload lên MinIO: {output_path}")
 if __name__ == '__main__':

@@ -4,7 +4,7 @@ default_args:
   retry_delay: 5
 dag_configs:
   - dag_id: "bronze"
-    dag_type: "bronze"
+    dag_type: "ingestion"
     schedule_interval: null
     max_actives_runs: 1
     start_date: "2025-05-05"
