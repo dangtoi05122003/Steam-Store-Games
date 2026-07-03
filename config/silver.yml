@@ -1,0 +1,83 @@
+table:
+  steam_requirements_data:
+    schema:
+      steam_appid: long
+      pc_requirements: string
+      mac_requirements: string
+      linux_requirements: string
+    process:
+      - extract_regex:
+          inputs:
+            pc_minimum_raw:
+              source: "pc_requirements"
+              pattern: "(?is)Minimum:(.*?)(?=Recommended:|\\'\\}|\\}$)"
+              group: 1
+            pc_recommended_raw:
+              source: "pc_requirements"
+              pattern: "(?is)Recommended:(.*?)(?=\\'\\}|\\}$)"
+              group: 1
+            mac_minimum_raw:
+              source: "mac_requirements"
+              pattern: "(?is)Minimum:(.*?)(?=Recommended:|\\'\\}|\\}$)"
+              group: 1
+            mac_recommended_raw:
+              source: "mac_requirements"
+              pattern: "(?is)Recommended:(.*?)(?=\\'\\}|\\}$)"
+              group: 1
+            linux_minimum_raw:
+              source: "linux_requirements"
+              pattern: "(?is)Minimum:(.*?)(?=Recommended:|\\'\\}|\\}$)"
+              group: 1
+            linux_recommended_raw:
+              source: "linux_requirements"
+              pattern: "(?is)Recommended:(.*?)(?=\\'\\}|\\}$)"
+              group: 1
+      - clean_text_columns:
+          targets: ["pc_minimum", "pc_recommended", "mac_minimum", "mac_recommended", "linux_minimum", "linux_recommended"]
+          source_suffix: "_raw"
+          null_if_empty: true
+          replacements:
+            - pattern: "</li>\\s*<li>"
+              replacement: ", "
+            - pattern: "</li>"
+              replacement: " "
+            - pattern: "<[^>]+>"
+              replacement: " "
+            - pattern: "\\\\r|\\\\n|\\\\t|\\r|\\n|\\t"
+              replacement: " "
+            - pattern: "\\s+"
+              replacement: " "
+            - pattern: "^[:',;\\s]+|[:',;\\s]+$"
+              replacement: ""
+          trim: true
+      - drop_columns:
+        - "pc_requirements"
+        - "mac_requirements"
+        - "linux_requirements"
+        - "pc_minimum_raw"
+        - "pc_recommended_raw"
+        - "mac_minimum_raw"
+        - "mac_recommended_raw"
+        - "linux_minimum_raw"
+        - "linux_recommended_raw"
+  steam:
+    schema:
+      appid: long
+      name: string
+      release_date: date
+      english: boolean
+      developer: string
+      publisher: string
+      platforms: string
+      required_age: int
+      categories: string
+      genres: string
+      steamspy_tags: string
+      achievements: int
+      positive_ratings: int
+      negative_ratings: int
+      average_playtime: int
+      median_playtime: int
+      owners: string
+      price: double
+    process: []
