@@ -22,3 +22,6 @@ models:
     fact:
       +catalog: postgres_dw
       +materialized: table
+    mart:
+      +catalog: postgres_dw
+      +materialized: table
