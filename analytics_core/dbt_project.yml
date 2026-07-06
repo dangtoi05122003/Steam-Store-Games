@@ -16,3 +16,9 @@ clean-targets:
 models:
   analytics_core:
     +materialized: view
+    dim:
+      +catalog: postgres_dw
+      +materialized: table
+    fact:
+      +catalog: postgres_dw
+      +materialized: table
