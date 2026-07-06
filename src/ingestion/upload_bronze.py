@@ -1,4 +1,5 @@
-from config import MinioClient, get_spark
+from config import MinioClient
+from config.spark_session import get_spark
 from utils import load_yaml, get_logger
 import os
 from config import setting

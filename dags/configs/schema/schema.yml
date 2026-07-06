@@ -1,0 +1,15 @@
+default_args:
+  owner: 'Steam-Store-Games'
+  retries: 1
+  retry_delay: 5
+dag_configs:
+  - dag_id: "schema_trino"
+    dag_type: "trino"
+    schedule_interval: null
+    max_actives_runs: 1
+    start_date: "2025-05-05"
+    catchup: false
+    is_paused_upon_creation: false
+    tasks:
+      - task_id: steam_store_games_catalog
+        script_path: "/opt/airflow/src/catalog/schema.py"

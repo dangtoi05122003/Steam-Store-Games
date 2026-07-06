@@ -1,0 +1,32 @@
+tables:
+  steam_requirements_data:
+    columns:
+      steam_appid: bigint
+      pc_minimum: varchar
+      pc_recommended: varchar
+      mac_minimum: varchar
+      mac_recommended: varchar
+      linux_minimum: varchar
+      linux_recommended: varchar
+  steam:
+    columns:
+      appid: bigint
+      name: varchar
+      release_date: date
+      english: boolean
+      developer: varchar
+      publisher: varchar
+      platforms: varchar
+      required_age: int
+      categories: varchar
+      genres: varchar
+      steamspy_tags: varchar
+      achievements: int
+      positive_ratings: int
+      negative_ratings: int
+      average_playtime: int
+      median_playtime: int
+      owners: varchar
+      price: double
+path:
+  source: s3a://{bucket_name}/silver/

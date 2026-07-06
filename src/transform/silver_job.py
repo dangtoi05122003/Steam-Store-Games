@@ -1,4 +1,5 @@
-from config import get_spark, setting
+from config.spark_session import get_spark
+from config import setting
 import pyspark.sql.functions as F
 from utils import load_yaml, get_logger
 

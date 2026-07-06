@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: gold
+    schema: steamgame
+    tables:
+      - name: steam
+      - name: steam_requirements_data

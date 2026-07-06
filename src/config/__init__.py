@@ -1,3 +1,3 @@
 from .settings import setting
 from .minio_config import MinioClient
-from .spark_session import get_spark
+from .trino_config import TrinoConfig
