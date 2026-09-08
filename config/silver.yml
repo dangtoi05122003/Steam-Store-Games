@@ -60,6 +60,13 @@ table:
         - "mac_recommended_raw"
         - "linux_minimum_raw"
         - "linux_recommended_raw"
+  steam_description_data:
+    schema:
+      steam_appid: long
+      detailed_description: string
+      about_the_game: string
+      short_description: string
+    process: []
   steam:
     schema:
       appid: long
@@ -81,3 +88,26 @@ table:
       owners: string
       price: double
     process: []
+  steam_media_data:
+    schema:
+      steam_appid: long
+      header_image: string
+      screenshots: string
+      background: string
+      movies: string
+    process: []
+  steam_support_info:
+    schema:
+      steam_appid: long
+      website: string
+      support_url: string
+      support_email: string
+    process: []
+  steamspy_tag_data:
+    schema:
+      appid: long
+    process:
+      - filter_column:
+          ignore: appid
+          output_column: tags
+          min_value: 1

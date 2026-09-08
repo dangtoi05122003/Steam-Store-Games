@@ -16,7 +16,7 @@ class Silver:
             table_config = self.config['table'][table_name]
             schema = table_config['schema']
             df = self.spark.read.parquet(f"s3a://{setting.bucket_name}/bronze/{table_name}")
-            cast_exprs = [F.col(c).cast(schema[c]).alias(c) for c in schema.keys()]
+            cast_exprs = [F.col(c).cast(schema[c]).alias(c) if c in schema else F.col(f"`{c}`") for c in df.columns]
             df = df.select(*cast_exprs)
             processes = table_config.get('process', [])
             if processes:
@@ -49,6 +49,21 @@ class Silver:
         elif "calculations" in step:
             for new_col, expr in step["calculations"].items():
                 df = df.withColumn(new_col, F.expr(expr))
+        elif "filter_column" in step:
+            config = step["filter_column"]
+            ignore_column = config.get("ignore")
+            output_column = config["output_column"]
+            min_value = config["min_value"]
+            tag_columns = [c for c in df.columns if c != ignore_column]
+            tag_map = F.map_filter(
+                F.map_from_arrays(
+                    F.array(*[F.lit(c) for c in tag_columns]),
+                    F.array(*[F.col(f"`{c}`").cast("long") for c in tag_columns])
+                ),
+                lambda _, value: value >= min_value
+            )
+            df = df.withColumn(output_column, tag_map)
+            df = df.drop(*tag_columns)
         return df
 if __name__ == "__main__":
     app = Silver("/opt/spark/config/silver.yml")
