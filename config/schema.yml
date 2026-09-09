@@ -28,5 +28,28 @@ tables:
       median_playtime: int
       owners: varchar
       price: double
+  steam_description_data:
+    columns:
+      steam_appid: bigint
+      detailed_description: varchar
+      about_the_game: varchar
+      short_description: varchar
+  steam_media_data:
+    columns:
+      steam_appid: bigint
+      header_image: varchar
+      screenshots: varchar
+      background: varchar
+      movies: varchar
+  steam_support_info:
+    columns:
+      steam_appid: bigint
+      website: varchar
+      support_url: varchar
+      support_email: varchar
+  steamspy_tag_data:
+    columns:
+      appid: bigint
+      tags: map(varchar, bigint)
 path:
   source: s3a://{bucket_name}/silver/

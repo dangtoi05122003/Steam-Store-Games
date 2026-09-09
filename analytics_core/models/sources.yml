@@ -6,3 +6,7 @@ sources:
     tables:
       - name: steam
       - name: steam_requirements_data
+      - name: steam_description_data
+      - name: steam_media_data
+      - name: steam_support_info
+      - name: steamspy_tag_data
